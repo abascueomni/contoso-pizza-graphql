@@ -88,7 +88,7 @@ npm install
 ```bash
 npm start
 ```
-4. GraphQL Playground will be available at: http://localhost:3000
+4. GraphQL Playground will be available at: http://localhost:5000/gql
 
 # Authentication
 Use the login endpoint (/api/auth/login) to get a JWT token.
