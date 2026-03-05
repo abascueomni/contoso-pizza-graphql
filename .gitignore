@@ -1,0 +1,14 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.DS_Store
+*.vscode/
+*.vs/
+
+# User secrets
+secrets.json
+
+# Debug stuff
+backend/obsolete services/
