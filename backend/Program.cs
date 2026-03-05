@@ -35,6 +35,8 @@ var connectionString = builder.Configuration.GetConnectionString("PizzaDb");
 builder.Services.AddDbContext<PizzaContext>(options =>
     options.UseSqlServer(connectionString));
 
+
+
 //Add Api versioning    
 builder.Services.AddApiVersioning(options =>
 {
@@ -111,6 +113,13 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+//Adding GraphQL support
+builder.Services
+    .AddGraphQLServer()
+    .AddAuthorization()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddFiltering();
 // ---------------------------
 // Add CORS
 // ---------------------------
@@ -154,7 +163,7 @@ app.UseCors("ReactPolicy");
 // Order matters: Authentication first, then Authorization
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapGraphQL("/gql");
 app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
