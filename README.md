@@ -73,7 +73,10 @@ dotnet ef database update
 ```bash
 dotnet run
 ```
-5. API will be available at http://localhost:5000
+5. GraphQL Playground will be available at:
+```bash
+http://localhost:5000/gql
+```
 
 # Frontend Setup
 1. Navigate to the frontend folder:
@@ -88,7 +91,7 @@ npm install
 ```bash
 npm start
 ```
-4. GraphQL Playground will be available at: http://localhost:5000/gql
+4. Frontend will open at http://localhost:3000 and communicate with the GraphQL API.
 
 # Authentication
 Use the login endpoint (/api/auth/login) to get a JWT token.
