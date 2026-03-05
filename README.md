@@ -1,7 +1,7 @@
-# Contoso Pizza Full-Stack App
+# Contoso Pizza Full-Stack App (GraphQL Edition)
 
-A full-stack pizza ordering system built with ASP.NET Core Web API, EF Core, SQL Server in Docker, and a React frontend.  
-Demonstrates CRUD operations, JWT authentication, API versioning, and order status computation.
+A full-stack pizza ordering system built with ASP.NET Core Web API, EF Core, SQL Server in Docker, and a React frontend.
+Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT authentication, and order status computation.
 
 ---
 
@@ -10,7 +10,8 @@ Demonstrates CRUD operations, JWT authentication, API versioning, and order stat
 **Backend:**  
 - ASP.NET Core 10 Web API  
 - Entity Framework Core with SQL Server  
-- JWT Authentication  
+- JWT Authentication
+- GraphQL via HotChocolate
 - API Versioning (v1, v2)  
 - Dockerized SQL Server  
 
@@ -22,20 +23,21 @@ Demonstrates CRUD operations, JWT authentication, API versioning, and order stat
 
 ## Features
 
-- Orders CRUD: Create, read, update, delete pizza orders  
-- Order Status: Computed mock status based on pickup time  
-- API Versioning: Supports v1 and v2 endpoints  
-- JWT Authentication: Secure login with hashed passwords  
-- Swagger UI: Interactive API documentation  
-- Dockerized Database: SQL Server container for easy setup  
+- Orders CRUD: Create, read, update, delete pizza orders via GraphQL
+- Pizza & Toppings Queries: Retrieve pizzas with toppings, filter by properties (e.g., gluten-free)
+- Order Status: Computed mock status based on pickup time
+- JWT Authentication: Secure login with hashed passwords
+- Role-Based Authorization: Admins can create pizzas; users can create orders
+- GraphQL Playground: Interactive queries & mutations at /gql
+- Dockerized Database: SQL Server container for easy setup
 
 ---
 
 ## Project Structure
 
-contoso-pizza-fullstack/
+contoso-pizza-graphql/
 
-├─ backend/ # ASP.NET Core API
+├─ backend/ # ASP.NET Core API with GraphQL
 
 ├─ frontend/ # React app
 
@@ -86,7 +88,7 @@ npm install
 ```bash
 npm start
 ```
-4. Frontend will open at http://localhost:3000 and communicate with the backend API.
+4. GraphQL Playground will be available at: http://localhost:3000
 
 # Authentication
 Use the login endpoint (/api/auth/login) to get a JWT token.
