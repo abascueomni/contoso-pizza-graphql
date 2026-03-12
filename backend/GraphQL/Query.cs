@@ -12,6 +12,7 @@ public class Query
     }
 
     [Authorize]
+    [UseFiltering]
     public IQueryable<Order> GetOrders([Service] PizzaContext context)
     {
         return context.Orders
