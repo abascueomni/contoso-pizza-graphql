@@ -1,13 +1,21 @@
 import { useState } from "react";
-import { useToken } from "../../app/TokenContext";
 import { useOrder } from "../../app/OrderContext";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client/react";
+import type {
+  CreateOrderResult,
+  CreateOrderVariables,
+} from "../../types/Order";
+import { CREATE_ORDER } from "../../graphql/Orders";
 
+//Checkout page for reviewing and submitting a pizza order
 export default function Checkout() {
   const [name, setName] = useState("");
-  const { token } = useToken();
   const { quantities, menuItems, setOrderResult } = useOrder();
   const navigate = useNavigate();
+  const [createOrder] = useMutation<CreateOrderResult, CreateOrderVariables>(
+    CREATE_ORDER,
+  );
 
   const handlePlaceOrder = async () => {
     const pizzasToOrder = menuItems
@@ -23,29 +31,28 @@ export default function Checkout() {
       drinks: [],
       coupon: null,
     };
-    console.log(JSON.stringify(payload, null, 2));
-    const API_BASE_URL: string =
-      import.meta.env.VITE_API_URL || "http://localhost:5000";
+
     try {
-      const res = await fetch(`${API_BASE_URL}/api/v2/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const { data } = await createOrder({
+        variables: {
+          input: payload,
         },
-        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const result = await res.json();
-      console.log("Order Success", result);
-      setOrderResult(result);
-      navigate(`/orders/${result.id}`);
+      if (data) {
+        const result = data.createOrder;
+        console.log("Order Success", result);
+        setOrderResult(result);
+        navigate(`/orders/${result.id}`);
+      } else {
+        console.error("Mutation failed: No data returned.");
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
+  //function which calculates subtotal for pizzas befor esubmitting to server
   const subtotal = menuItems.reduce((sum, pizza) => {
     const qty = quantities[pizza.id] || 0;
     return sum + pizza.price * qty;

@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
-import { useOrder } from "../../app/OrderContext";
-import { useParams, useLocation } from "react-router-dom";
-import { useToken } from "../../app/TokenContext";
+import { useParams } from "react-router-dom";
+import {
+  type GetOrderStatusResult,
+  type GetOrderStatusVariables,
+} from "../../types/Order";
+import { useQuery } from "@apollo/client/react";
+import { GET_ORDER_STATUS } from "../../graphql/Orders";
 
+//Displays order status for a given order ID
 export default function Confirmation() {
-  const { orderId } = useParams();
-  const location = useLocation();
-  const { token } = useToken();
-  const { orderResult, setOrderResult } = useOrder();
+  const { orderid } = useParams();
+  const { data, loading, error } = useQuery<
+    GetOrderStatusResult,
+    GetOrderStatusVariables
+  >(GET_ORDER_STATUS, {
+    variables: { id: Number(orderid) },
+  });
 
-  const [order, setOrder] = useState(
-    orderResult || location.state?.order || null,
-  );
-  useEffect(() => {
-    if (!order && token && orderId) {
-      fetch(`/api/v1/order/$orderid}`, {
-        headers: { Authorixation: `Bearer: ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setOrder(data);
-          setOrderResult(data);
-        });
-    }
-  }, [order, orderId, token, setOrderResult]);
+  //Error checking to ensure that data has loaded properly
+  if (loading) return <p>Loading order...</p>;
+  if (error) return <p>Error loading order</p>;
+  if (!data?.orders) return <p>No order found</p>;
 
+  //pull out the first order result from data
+  const order = data.orders?.[0];
+
+  //use that order result to populate data fields
   const createdAt = new Date(order.createdAt);
   const pickupTime = new Date(order.pickUpTime);
   return (

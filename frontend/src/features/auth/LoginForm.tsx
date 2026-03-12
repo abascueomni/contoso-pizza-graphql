@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToken } from "../../app/TokenContext";
 import { useNavigate } from "react-router-dom";
 
+//RESTful login form that authenticates the user and stores the JWT token for app-wide usage
 export function LoginForm() {
   const { setToken } = useToken();
   const [username, setUsername] = useState("");
@@ -12,8 +13,9 @@ export function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    //make sure to update url when using this
     const API_BASE_URL: string =
-      import.meta.env.VITE_API_URL || "http://localhost:5000";
+      import.meta.env.VITE_API_URL || "http://10.0.0.238:5000";
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/v1/login/login`, {
