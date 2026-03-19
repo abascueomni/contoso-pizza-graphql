@@ -31,7 +31,7 @@ builder.Services.AddControllers(options =>
 });
 
 // Register DbContext
-var connectionString = builder.Configuration.GetConnectionString("PizzaDb");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<PizzaContext>(options =>
     options.UseSqlServer(connectionString));
 
