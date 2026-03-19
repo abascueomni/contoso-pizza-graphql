@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'                   # only trigger on changes in frontend folder
+      - '.github/workflows/main_abascue-pizza-gql-frontend.yml' # also trigger if workflow itself changes
   workflow_dispatch:
 
 jobs:
@@ -31,11 +34,18 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Ensure build folder exists
+        run: |
+          if [ ! -d dist ]; then
+            echo "Error: dist folder not found"
+            exit 1
+          fi
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: ./frontend/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +59,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          path: ./frontend-build   # download artifact to this folder
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -63,5 +74,4 @@ jobs:
         with:
           app-name: 'abascue-pizza-gql-frontend'
           slot-name: 'Production'
-          package: .
-          
+          package: ./frontend-build   # deploy downloaded artifact directly to wwwroot
