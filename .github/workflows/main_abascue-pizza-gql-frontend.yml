@@ -34,6 +34,13 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Ensure build folder exists
+        run: |
+          if [ ! -d build ]; then
+            echo "Error: build folder not found"
+            exit 1
+          fi
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -54,7 +61,6 @@ jobs:
           name: node-app
           path: ./frontend-build   # download artifact to this folder
 
-      
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -68,5 +74,4 @@ jobs:
         with:
           app-name: 'abascue-pizza-gql-frontend'
           slot-name: 'Production'
-          package: ./frontend/build   # repo-root relative
-          
+          package: ./frontend-build   # deploy downloaded artifact directly to wwwroot
