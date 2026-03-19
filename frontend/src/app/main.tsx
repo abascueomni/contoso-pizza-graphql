@@ -16,7 +16,7 @@ import { OrderProvider } from "./OrderContext.tsx";
 import "../css/index.css"; // Local styles
 
 const httpLink = new HttpLink({
-  uri: "http://10.0.0.238:5000/gql",
+  uri: import.meta.env.VITE_API_URL + "/gql" || "http://10.0.0.238:5000/gql",
 });
 
 const authLink = new SetContextLink(() => {
