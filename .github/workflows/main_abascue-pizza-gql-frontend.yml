@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'                   # only trigger on changes in frontend folder
+      - '.github/workflows/main_abascue-pizza-gql-frontend.yml' # also trigger if workflow itself changes
   workflow_dispatch:
 
 jobs:
