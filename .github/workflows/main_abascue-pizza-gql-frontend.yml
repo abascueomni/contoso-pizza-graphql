@@ -66,5 +66,5 @@ jobs:
         with:
           app-name: 'abascue-pizza-gql-frontend'
           slot-name: 'Production'
-          package: .
+          package: ./frontend/build   # repo-root relative
           
