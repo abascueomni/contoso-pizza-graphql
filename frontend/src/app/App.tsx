@@ -7,33 +7,29 @@ import "../css/App.css";
 import Order from "../features/order/Order";
 import Checkout from "../features/checkout/Checkout";
 import Confirmation from "../features/order/Confirmation";
+import { useQuery } from "@apollo/client/react";
+import type { PizzaInOrder } from "../types/Pizza";
+import { GET_PIZZAS } from "../graphql/Pizzas";
 
 function App() {
   const { setMenuItems } = useOrder();
   const { token } = useToken();
+  const { data, loading, error } = useQuery<{ pizzas: PizzaInOrder[] }>(
+    GET_PIZZAS,
+  );
 
   //Logout function
   const LogoutButton = () => {
     const { logout } = useToken();
     return <button onClick={logout}>Logout</button>;
   };
-  const API_BASE_URL: string =
-    import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-  //Get the Pizza menu
-  const getPizzas = async () => {
-    if (!token) return;
-    const res = await fetch(`${API_BASE_URL}/api/v1/pizza`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setMenuItems(data);
-  };
 
   useEffect(() => {
-    //console.log("App mounted or token changed", token);
-    getPizzas();
-  }, [token]);
+    if (data?.pizzas) {
+      console.log(data.pizzas);
+      setMenuItems(data.pizzas);
+    }
+  }, [data]);
 
   if (!token) {
     return <LoginForm />;
