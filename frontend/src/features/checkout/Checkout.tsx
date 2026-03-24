@@ -64,7 +64,7 @@ export default function Checkout() {
         .filter((p) => (quantities[p.id] || 0) > 0)
         .map((p) => (
           <p key={p.id}>
-            You donkey you wanted {quantities[p.id] || 0} {p.name} pizzas
+            You wanted {quantities[p.id] || 0} {p.name} pizzas
           </p>
         ))}
       <h2> Your subtotal is ${subtotal.toFixed(2)}</h2>
