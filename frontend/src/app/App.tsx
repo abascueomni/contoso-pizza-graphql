@@ -14,9 +14,7 @@ import { GET_PIZZAS } from "../graphql/Pizzas";
 function App() {
   const { setMenuItems } = useOrder();
   const { token } = useToken();
-  const { data, loading, error } = useQuery<{ pizzas: PizzaInOrder[] }>(
-    GET_PIZZAS,
-  );
+  const { data } = useQuery<{ pizzas: PizzaInOrder[] }>(GET_PIZZAS);
 
   //Logout function
   const LogoutButton = () => {
