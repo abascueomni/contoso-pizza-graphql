@@ -1,5 +1,6 @@
 using System.Text;
 using ContosoPizza.Data;
+using ContosoPizza.GraphQL;
 using ContosoPizza.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -113,6 +114,13 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+//add ability to use memory cache
+builder.Services.AddMemoryCache();
+
+//register resolvers
+builder.Services.AddScoped<Query>();
+builder.Services.AddScoped<Mutation>();
+
 //Adding GraphQL support
 builder.Services
     .AddGraphQLServer()
@@ -120,6 +128,7 @@ builder.Services
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .AddFiltering();
+
 // ---------------------------
 // Add CORS
 // ---------------------------
