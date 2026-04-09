@@ -29,6 +29,8 @@ Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT au
 - JWT Authentication: Secure login with hashed passwords
 - Role-Based Authorization: Admins can create pizzas; users can create orders
 - GraphQL Playground: Interactive queries & mutations at /gql
+- In-Memory Caching: Improves performance by caching frequently used queries and automatically invalidating them after 30 minutes
+- Cache Performance Tracking: Track hits, misses, and eviction events
 - Dockerized Database: SQL Server container for easy setup
 
 ---
