@@ -3,8 +3,10 @@ using ContosoPizza.Models;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using ContosoPizza.Common;
 
 namespace ContosoPizza.GraphQL;
+
 public class Mutation
 {
     private readonly IMemoryCache _cache;
@@ -37,7 +39,7 @@ public class Mutation
         context.Pizzas.Add(pizza);
         await context.SaveChangesAsync();
         //Invalidate the cache of all pizzas since we just added one
-        _logger.LogDebug("NEW PIZZA Invaliding Cache: pizzas_all");
+        _logger.LogDebug("Invalidating cache: {CacheKey}", CacheKeys.PizzasAll);
         _cache.Remove("pizzas_all");
         return pizza;
     }
