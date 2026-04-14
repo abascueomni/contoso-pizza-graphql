@@ -1,7 +1,10 @@
-# Contoso Pizza Full-Stack App (GraphQL Edition)
+# Contoso Pizza Full-Stack App (GraphQL & Redis Edition)
 
 A full-stack pizza ordering system built with ASP.NET Core Web API, EF Core, SQL Server in Docker, and a React frontend.
-Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT authentication, and order status computation.
+
+The project demonstrates GraphQL queries and mutations, JWT authentication, and a cache-aside caching pattern using interchangeable implementations via `IDistributedCache`.
+
+Redis-based distributed caching is implemented in a dedicated feature branch using Docker Redis for local development.
 
 ---
 
@@ -12,8 +15,13 @@ Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT au
 - Entity Framework Core with SQL Server  
 - JWT Authentication
 - GraphQL via HotChocolate
-- API Versioning (v1, v2)  
-- Dockerized SQL Server  
+- Dockerized SQL Server
+- `IDistributedCache` caching abstraction
+
+**Caching:**
+- Main branch: In-memory distributed caching (`AddDistributedMemoryCache`)
+- Redis branch: Redis distributed caching via Docker (`AddStackExchangeRedisCache`)
+- Cache-aside pattern with manual invalidation and hit/miss logging
 
 **Frontend:**  
 - React (JavaScript)  
@@ -29,10 +37,10 @@ Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT au
 - JWT Authentication: Secure login with hashed passwords
 - Role-Based Authorization: Admins can create pizzas; users can create orders
 - GraphQL Playground: Interactive queries & mutations at /gql
-- In-Memory Caching: Improves performance by caching frequently used queries and automatically invalidating them after 30 minutes
-- Cache Performance Tracking: Track hits, misses, and eviction events
+- Cache-aside pattern implemented using `IDistributedCache` with interchangeable providers (in-memory for main branch, Redis for feature branch)
+- Cache Performance Tracking: Track hits, misses
 - Dockerized Database: SQL Server container for easy setup
-
+  
 ---
 
 ## Project Structure
@@ -56,7 +64,7 @@ contoso-pizza-graphql/
 
 ---
 
-### Backend Setup
+## Backend Setup (Main Branch - No Redis Required)
 
 1. Navigate to the backend folder:
 
@@ -79,8 +87,18 @@ dotnet run
 ```bash
 http://localhost:5000/gql
 ```
+## Backend Setup (Redis Branch - Requires Docker Redis)
+1. Start Redis:
+```bash
+docker run -d -p 6379:6379 redis
+```
+2. Run backend
+```bash
+dotnet run
+```
+This branch enables Redis-based distributed caching via IDistributedCache.
 
-# Frontend Setup
+## Frontend Setup
 1. Navigate to the frontend folder:
 ```bash
 cd frontend
