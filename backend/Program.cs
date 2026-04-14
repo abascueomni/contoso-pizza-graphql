@@ -114,8 +114,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-//add ability to use memory cache
-builder.Services.AddMemoryCache();
+//add ability to use distributed memory cache
+builder.Services.AddDistributedMemoryCache();
 
 //register resolvers
 builder.Services.AddScoped<Query>();
