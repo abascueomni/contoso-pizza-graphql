@@ -117,6 +117,13 @@ builder.Services.AddAuthorization();
 //add ability to use memory cache
 builder.Services.AddMemoryCache();
 
+//Add Redis to project
+builder.Services.AddStackExchangeRedisCache(redisOptions =>
+{
+    redisOptions.Configuration = builder.Configuration["Redis:Connection"];
+    redisOptions.InstanceName = "ContosoPizza";
+});
+
 //register resolvers
 builder.Services.AddScoped<Query>();
 builder.Services.AddScoped<Mutation>();
