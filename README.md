@@ -1,7 +1,8 @@
 # Contoso Pizza Full-Stack App (GraphQL Edition)
 
 A full-stack pizza ordering system built with ASP.NET Core Web API, EF Core, SQL Server in Docker, and a React frontend.
-Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT authentication, and order status computation.
+Demonstrates GraphQL queries and mutations alongside CRUD operations, JWT authentication, and order status computation.
+The application uses IDistributedCache for caching, with a memory-based implementation in the main branch. A Redis-based implementation is available in a separate feature branch for demonstration of distributed caching.
 
 ---
 
@@ -12,7 +13,6 @@ Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT au
 - Entity Framework Core with SQL Server  
 - JWT Authentication
 - GraphQL via HotChocolate
-- API Versioning (v1, v2)  
 - Dockerized SQL Server  
 
 **Frontend:**  
@@ -29,8 +29,8 @@ Now demonstrates GraphQL queries and mutations alongside CRUD operations, JWT au
 - JWT Authentication: Secure login with hashed passwords
 - Role-Based Authorization: Admins can create pizzas; users can create orders
 - GraphQL Playground: Interactive queries & mutations at /gql
-- In-Memory Caching: Improves performance by caching frequently used queries and automatically invalidating them after 30 minutes
-- Cache Performance Tracking: Track hits, misses, and eviction events
+- In-Memory Caching: Improves performance by caching frequently accessed queries using time-based expiration and manual invalidation on mutations
+- Cache Performance Tracking: Track hits, misses via logging
 - Dockerized Database: SQL Server container for easy setup
 
 ---
