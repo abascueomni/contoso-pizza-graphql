@@ -10,9 +10,23 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Azure.Identity;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using System.Security.Cryptography;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Access keys from the Azure Key Vault
+var keyVaultUrl = builder.Configuration["KeyVault:Url"];
+
+if (!string.IsNullOrEmpty(keyVaultUrl))
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri(keyVaultUrl),
+        new DefaultAzureCredential()
+    );
+}
 
 // ---------------------------
 // Add services to the container
@@ -32,7 +46,7 @@ builder.Services.AddControllers(options =>
 });
 
 // Register DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 builder.Services.AddDbContext<PizzaContext>(options =>
     options.UseSqlServer(connectionString));
 
