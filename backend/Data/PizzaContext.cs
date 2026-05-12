@@ -24,7 +24,7 @@ namespace ContosoPizza.Data
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
-                
+
             // Configure composite key for OrderPizza
             modelBuilder.Entity<OrderPizza>()
                 .HasKey(op => new { op.OrderId, op.PizzaId });
@@ -46,7 +46,12 @@ namespace ContosoPizza.Data
                 .HasForeignKey(op => op.PizzaId);
 
             modelBuilder.Entity<Order>()
-                .OwnsMany(o => o.Drinks);
+                .HasMany(o => o.Drinks)
+                .WithOne()
+                .HasForeignKey(d => d.OrderId);
+
+            modelBuilder.Entity<DrinkQuantity>()
+                .HasKey(d => d.Id);
         }
     }
 }

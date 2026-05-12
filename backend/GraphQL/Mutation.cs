@@ -26,14 +26,15 @@ public class Mutation
             Name = input.Name,
             IsGlutenFree = input.IsGlutenFree,
             IsMenuPizza = input.IsMenuPizza,
-            Price = CalculatePrice(input)
+            Price = CalculatePrice(input),
+            Toppings = new List<PizzaTopping>()
         };
 
         foreach (var topping in input.Toppings)
         {
             pizza.Toppings.Add(new PizzaTopping
             {
-                Topping = topping
+                Topping = Enum.Parse<Topping>(topping.Topping, ignoreCase: true)
             });
         }
         context.Pizzas.Add(pizza);

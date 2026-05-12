@@ -11,3 +11,8 @@ public class PizzaTopping
     [JsonIgnore]  // <--- ignore during serialization    
     public Pizza Pizza { get; set; }
 }
+
+public class ToppingInput
+{
+    public string Topping { get; set; }
+}
