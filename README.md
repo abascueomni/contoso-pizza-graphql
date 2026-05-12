@@ -32,6 +32,7 @@ The application uses IDistributedCache for caching, with a memory-based implemen
 - In-Memory Caching: Improves performance by caching frequently accessed queries using time-based expiration and manual invalidation on mutations
 - Cache Performance Tracking: Track hits, misses via logging
 - Dockerized Database: SQL Server container for easy setup
+- Uses Azure KeyVault for application configuration
 
 ---
 
@@ -102,6 +103,11 @@ Include the token in the Authorization: Bearer <token> header for protected endp
 # Notes
 Database credentials are stored in user secrets; make sure not to commit them.
 The backend computes mock order status for demonstration purposes.
+
+# Changelog
+## 2026-04-23
+- Integrated Azure Key Vault for application configuration (replacing local configuration in production)
+  
 
 # License
 This project is for portfolio and demonstration purposes only.
